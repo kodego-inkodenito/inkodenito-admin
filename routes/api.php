@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SanctumAuthController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\RecipeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('register', [SanctumAuthController::class, 'register']);
+Route::post('login', [SanctumAuthController::class, 'login']);
+
+// User Routes
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/user/{user_id}/recipes', [UserController::class, 'getUserRecipes']);
+Route::post('/createUser', [UserController::class, 'store']);
+Route::get('search-user', [UserController::class, 'searchUserByName']);
+Route::patch('/user/{user_id}', [UserController::class, 'update']);
+Route::delete('/user/{user_id}', [UserController::class, 'delete']);
+
+// Recipe Routes
+Route::get('/recipe/{recipe_id}/user', [RecipeController::class, 'getRecipeAuthor']);
